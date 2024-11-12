@@ -5,17 +5,25 @@
   "main": "app.ts",
   "scripts": {
     "dev": "ts-node src/index.ts",
-    "start": "ts-node src/index.ts"
-
+    "start": "ts-node src/index.ts",
+    "queries": "ts-node src/queries.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "prisma": "^5.22.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "@prisma/extension-accelerate": "^1.2.1",
+    "@prisma/extension-pulse": "^1.2.0",
+    "dotenv": "^16.4.5",
     "express": "^4.21.1"
+  },
+  "prisma": {
+    "schema": "./prisma/schema.prisma"
   }
 }
