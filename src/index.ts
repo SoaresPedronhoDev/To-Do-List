@@ -1,6 +1,6 @@
 import express , {Request,Response,NextFunction} from 'express'
 import dotenv from 'dotenv'
-import loginRoute from './routes/loginRoute'
+import todoGet from './routes/todoRoute'
 
 dotenv.config()
 
@@ -9,7 +9,7 @@ const PORT = 5001
 
 app.use(express.json())
 
-app.use('/Todo',loginRoute)
+app.use('/Todo',todoGet)
 
 
 app.listen(PORT, () =>{
