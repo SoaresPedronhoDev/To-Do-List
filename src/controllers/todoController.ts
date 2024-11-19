@@ -3,7 +3,7 @@ import path from 'path'
 
 
 export const todoGet = (req : Request, res : Response): void => {
-  const filePath = path.join(__dirname,'../../public/todoWelcome.html')
-  res.sendFile(filePath)
+  const filePath = path.join(__dirname,'../../public/todoWelcome.html') // passa o caminho do html para usar
+  res.sendFile(filePath) //retorna o html 
 }
 

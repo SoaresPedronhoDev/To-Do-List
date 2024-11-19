@@ -1,4 +1,5 @@
 import express , {Request,Response,NextFunction} from 'express'
+import path from 'path'
 import dotenv from 'dotenv'
 import todoGet from './routes/todoRoute'
 
@@ -8,7 +9,7 @@ const app = express()
 const PORT = 5001
 
 app.use(express.json())
-
+app.use(express.static(path.join(__dirname, '../public')))
 app.use('/Todo',todoGet)
 
 
