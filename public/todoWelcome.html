@@ -41,8 +41,45 @@
  
   <footer class="px-8 py-4 flex justify-between text-xs">
     <p>Follower of Jesus Christ†</p>
-    <p class="text-gray-500">5:44:38 PM. GMT-5</p>
+    <p id="time-display" class="text-gray-500">5:44:38 PM. GMT-5</p>
   </footer>
 
+  <script>
+    function updateTime() {
+  const timeDisplay = document.getElementById("time-display");
+
+  if (!timeDisplay) {
+    console.error("Time display element not found");
+    return;
+  }
+
+  const now = new Date();
+
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
+
+  const period = hours >= 12 ? "PM" : "AM";
+  const formattedHours = hours % 12 || 12; 
+
+
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+  const formattedSeconds = seconds.toString().padStart(2, "0");
+
+
+  const gmtOffset = -now.getTimezoneOffset() / 60; // Em horas
+  const gmtString = `GMT${gmtOffset >= 0 ? "+" : ""}${gmtOffset}`;
+
+  timeDisplay.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${period}. ${gmtString}`;
+}
+
+
+setInterval(updateTime, 1000);
+
+
+updateTime();
+
+  </script>
 </body>
 </html>
