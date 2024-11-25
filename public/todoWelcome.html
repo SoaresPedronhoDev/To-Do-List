@@ -3,15 +3,46 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./css/style.css"  rel="stylesheet">
-    <title>Welcome</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Do </title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    
-    <div class="font-bold">ok</div>
 
+<body class="bg-black text-white min-h-screen flex flex-col justify-between ">
+
+  
+  <header class="flex justify-between items-center px-8 py-4">
+    <h1 class="text-lg font-semibold">To Do Login</h1>
+    <nav class="space-x-8 text-sm uppercase">
+      <a href="#" class="hover:underline">About</a>
+      <a href="#" class="hover:underline">Linkedin</a>
+      <a href="#" class="hover:underline">Contact</a>
+    </nav>
+  </header>
+
+  <main class="flex-grow flex flex-col lg:flex-row items-center justify-center px-8">
+
+    <div class="text-center lg:text-left max-w-md mb-8 lg:mb-0">
+      <p class="text-2xl font-light">Entre com o seu</p>
+      <p class="text-2xl font-light">Usuario para podermos</p>
+      <p class="text-2xl font-light">Te dar suas tarefas</p>
+    </div>
+
+    
+    <div class="relative">
+      <div class="overflow-hidden w-64 h-64 bg-gray-700 rounded-lg">
+        <img src="https://via.placeholder.com/256" alt="Portrait" class="object-cover w-full h-full grayscale">
+      </div>
+      <div class="absolute top-2 right-2 text-gray-500 text-2xl font-bold">✨</div>
+    </div>
+  </main>
+
+ 
+  <footer class="px-8 py-4 flex justify-between text-xs">
+    <p>Follower of Jesus Christ†</p>
+    <p class="text-gray-500">5:44:38 PM. GMT-5</p>
+  </footer>
 
 </body>
 </html>

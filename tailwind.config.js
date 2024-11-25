@@ -1,9 +1,16 @@
 module.exports = {
   content: [
-    "./public/**/*.html", // Inclui todos os arquivos HTML na pasta public
+    "./public/**/*.html", 
   ],
   theme: {
-    extend: {},
+    extend: {
+      cursor: {
+        'pointer': 'pointer', 
+        'crosshair': 'crosshair', 
+        'custom-shape': 'cell', 
+        'none': 'none', 
+      },
+    },
   },
   plugins: [],
 };
