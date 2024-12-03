@@ -7,15 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To Do </title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body class="bg-black text-white min-h-screen flex flex-col justify-between ">
 
+  <section>
+    <div class="blob">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#F2F4F8" d="M26.1,-21C40.1,-19.4,62.1,-17.1,71.2,-6.4C80.4,4.2,76.8,23.2,68.2,40.6C59.6,57.9,46,73.6
+        ,31.8,72.1C17.6,70.6,2.8,51.9,-8.3,40.3C-19.4,28.7,-26.8,24.2,-37.2,16.5C-47.6,8.7,-61.1,-2.2,-57.8,-8.3C-54.4,-14
+        .4,-34.2,-15.5,-21.8,-17.4C-9.4,-19.3,-4.7,-21.9,0.7,-22.7C6.1,-23.6,12.1,-22.6,26.1,-21Z" transform="translate(100 100)" />
+      </svg>
+    </div>
+  </section>
   
   <header class="flex justify-between items-center px-8 py-4">
     <h1 class="text-lg font-semibold">To Do Login</h1>
-    <nav class="space-x-8 text-sm uppercase">
-      <a href="#" class="hover:underline">About</a>
+    <nav class="space-x-8 text-sm uppercase ">
+      <a href="#" class="hover:underline word">About</a>
       <a href="#" class="hover:underline">Linkedin</a>
       <a href="#" class="hover:underline">Contact</a>
     </nav>
@@ -79,6 +89,40 @@ setInterval(updateTime, 1000);
 
 
 updateTime();
+
+// Seleciona o blob
+const blob = document.querySelector('.blob');
+
+// Variáveis para rastrear posição do blob e do mouse
+let blobX = window.innerWidth / 2; // Centraliza inicialmente
+let blobY = window.innerHeight / 2;
+
+let mouseX = blobX;
+let mouseY = blobY;
+
+// Função para mover o blob com atraso
+function animateBlob() {
+  // Interpolação lenta para criar mais atraso
+  const delayFactor = 0.05; // Quanto menor o número, maior o atraso
+  blobX += (mouseX - blobX) * delayFactor;
+  blobY += (mouseY - blobY) * delayFactor;
+
+  // Atualiza a posição do blob
+  blob.style.transform = `translate(${blobX - 100}px, ${blobY - 100}px)`;
+
+  // Chama novamente a função em cada frame
+  requestAnimationFrame(animateBlob);
+}
+
+// Captura o movimento do mouse
+document.addEventListener('mousemove', (event) => {
+  mouseX = event.clientX;
+  mouseY = event.clientY;
+});
+
+// Inicia a animação
+animateBlob();
+
 
   </script>
 </body>
