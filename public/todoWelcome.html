@@ -10,120 +10,120 @@
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
-<body class="bg-black text-white min-h-screen flex flex-col justify-between ">
+<body>
 
-  <section>
-    <div class="blob">
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#F2F4F8" d="M26.1,-21C40.1,-19.4,62.1,-17.1,71.2,-6.4C80.4,4.2,76.8,23.2,68.2,40.6C59.6,57.9,46,73.6
-        ,31.8,72.1C17.6,70.6,2.8,51.9,-8.3,40.3C-19.4,28.7,-26.8,24.2,-37.2,16.5C-47.6,8.7,-61.1,-2.2,-57.8,-8.3C-54.4,-14
-        .4,-34.2,-15.5,-21.8,-17.4C-9.4,-19.3,-4.7,-21.9,0.7,-22.7C6.1,-23.6,12.1,-22.6,26.1,-21Z" transform="translate(100 100)" />
-      </svg>
-    </div>
-  </section>
-  
-  <header class="flex justify-between items-center px-8 py-4">
-    <h1 class="text-lg font-semibold">To Do Login</h1>
-    <nav class="space-x-8 text-sm uppercase ">
-      <a href="#" class="hover:underline word">About</a>
-      <a href="#" class="hover:underline">Linkedin</a>
-      <a href="#" class="hover:underline">Contact</a>
-    </nav>
-  </header>
+  <div class="h-screen w-full">
 
-  <main class="flex-grow flex flex-col lg:flex-row items-center justify-center px-8">
+      <section class="h-screen w-full">
+        <div class="loader">
+          <span style="--i:1;"></span>
+          <span style="--i:2;"></span>
+          <span style="--i:3;"></span>
+          <span style="--i:4;"></span>
+          <span style="--i:5;"></span>
+          <span style="--i:6;"></span>
+          <span style="--i:7;"></span>
+          <span style="--i:8;"></span>
+          <span style="--i:9;"></span>
+          <span style="--i:10;"></span>
+          <span style="--i:11;"></span>
+          <span style="--i:12;"></span>
+          <span style="--i:13;"></span>
+          <span style="--i:14;"></span>
+          <span style="--i:15;"></span>
+          <span style="--i:16;"></span>
+          <span style="--i:17;"></span>
+          <span style="--i:18;"></span>
+          <span style="--i:19;"></span>
+          <span style="--i:20;"></span>
+        </div>
+      </section>
+      
 
-    <div class="text-center lg:text-left max-w-md mb-8 lg:mb-0">
-      <p class="text-2xl font-light">Entre com o seu</p>
-      <p class="text-2xl font-light">Usuario para podermos</p>
-      <p class="text-2xl font-light">Te dar suas tarefas</p>
-    </div>
+      <div id="hiden" class="bg-black text-white min-h-screen hidden flex-col justify-between">  
+        <header class="flex justify-between items-center px-8 py-4">
+          <h1 class="text-lg font-semibold">To Do Login</h1>
+          <nav class="space-x-8 text-sm uppercase ">
+            <a href="#" class="hover:underline">About</a>
+            <a href="#" class="hover:underline">Linkedin</a>
+            <a href="#" class="hover:underline">Contact</a>
+          </nav>
+        </header>
 
-    
-    <div class="relative">
-      <div class="overflow-hidden w-64 h-64 bg-gray-700 rounded-lg">
-        <img src="https://via.placeholder.com/256" alt="Portrait" class="object-cover w-full h-full grayscale">
-      </div>
-      <div class="absolute top-2 right-2 text-gray-500 text-2xl font-bold">✨</div>
-    </div>
-  </main>
+        <main class="flex-grow flex flex-col lg:flex-row items-center justify-center px-8">
+          <div class="text-center lg:text-left max-w-md mb-8 lg:mb-0">
+            <p class="text-2xl font-light">Entre com o seu</p>
+            <p class="text-2xl font-light">Usuario para podermos</p>
+            <p class="text-2xl font-light">Te dar suas tarefas</p>
+          </div>
 
- 
-  <footer class="px-8 py-4 flex justify-between text-xs">
-    <p>Follower of Jesus Christ†</p>
-    <p id="time-display" class="text-gray-500">5:44:38 PM. GMT-5</p>
-  </footer>
+          <div class="relative">
+            <div class="overflow-hidden w-64 h-64 bg-gray-700 rounded-lg">
+              <img src="https://via.placeholder.com/256" alt="Portrait" class="object-cover w-full h-full grayscale">
+            </div>
+            <div class="absolute top-2 right-2 text-gray-500 text-2xl font-bold">✨</div>
+          </div>
+        </main>
+
+        <footer class="px-8 py-4 flex justify-between text-xs">
+          <p>Follower of Jesus Christ†</p>
+          <p id="time-display" class="text-gray-500">5:44:38 PM. GMT-5</p>
+        </footer>
+      </div>  
+
+  </div>
 
   <script>
+    // função para atualizar o horário
     function updateTime() {
-  const timeDisplay = document.getElementById("time-display");
+      const timeDisplay = document.getElementById("time-display");
 
-  if (!timeDisplay) {
-    console.error("Time display element not found");
-    return;
-  }
+      if (!timeDisplay) {
+        console.error("Time display element not found");
+        return;
+      }
 
-  const now = new Date();
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
 
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
+      const period = hours >= 12 ? "PM" : "AM";
+      const formattedHours = hours % 12 || 12; 
+      const formattedMinutes = minutes.toString().padStart(2, "0");
+      const formattedSeconds = seconds.toString().padStart(2, "0");
 
+      const gmtOffset = -now.getTimezoneOffset() / 60; // Em horas
+      const gmtString = `GMT${gmtOffset >= 0 ? "+" : ""}${gmtOffset}`;
 
-  const period = hours >= 12 ? "PM" : "AM";
-  const formattedHours = hours % 12 || 12; 
+      timeDisplay.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${period}. ${gmtString}`;
+    }
 
+    setInterval(updateTime, 1000);
+    updateTime();
 
-  const formattedMinutes = minutes.toString().padStart(2, "0");
-  const formattedSeconds = seconds.toString().padStart(2, "0");
+  
+    // função para mudar o display da section e do body
+function changeDisplay() {
+  setTimeout(() => {
+    const section = document.querySelector('section');
+    if (section) {
+      section.style.display = 'none';  // muda display da section para none
+    }
 
-
-  const gmtOffset = -now.getTimezoneOffset() / 60; // Em horas
-  const gmtString = `GMT${gmtOffset >= 0 ? "+" : ""}${gmtOffset}`;
-
-  timeDisplay.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${period}. ${gmtString}`;
+    const body = document.querySelector('#hiden');
+    if (body) {
+      body.classList.remove('hidden'); // remove a classe 'hidden'
+      body.classList.add('flex'); // adiciona a classe 'flex'
+      body.classList.add('show'); // adiciona a classe 'show'
+    }
+  }, 3000);  
 }
 
-
-setInterval(updateTime, 1000);
-
-
-updateTime();
-
-// Seleciona o blob
-const blob = document.querySelector('.blob');
-
-// Variáveis para rastrear posição do blob e do mouse
-let blobX = window.innerWidth / 2; // Centraliza inicialmente
-let blobY = window.innerHeight / 2;
-
-let mouseX = blobX;
-let mouseY = blobY;
-
-// Função para mover o blob com atraso
-function animateBlob() {
-  // Interpolação lenta para criar mais atraso
-  const delayFactor = 0.05; // Quanto menor o número, maior o atraso
-  blobX += (mouseX - blobX) * delayFactor;
-  blobY += (mouseY - blobY) * delayFactor;
-
-  // Atualiza a posição do blob
-  blob.style.transform = `translate(${blobX - 100}px, ${blobY - 100}px)`;
-
-  // Chama novamente a função em cada frame
-  requestAnimationFrame(animateBlob);
-}
-
-// Captura o movimento do mouse
-document.addEventListener('mousemove', (event) => {
-  mouseX = event.clientX;
-  mouseY = event.clientY;
-});
-
-// Inicia a animação
-animateBlob();
-
+    // chama a função changeDisplay quando a página carrega
+    window.onload = changeDisplay;
 
   </script>
 </body>
+
 </html>
