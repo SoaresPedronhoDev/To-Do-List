@@ -741,5 +741,26 @@ section .loader span::before{
   border-color: #fff;
 }
 
+.hover-text:hover {
+  font-size: 4rem; /* Aumenta o tamanho da fonte ao passar o mouse */
+  color: #2563eb; /* Adiciona uma mudança de cor como efeito adicional */
+}
+
+.hover-text {
+  font-size: 1.5rem;
+  transition: font-size 0.3s ease, color 0.3s ease;
+}
+
+.hover-text-ToDo{
+  font-size: 1.0rem;
+  transition: font-size 0.3s ease, color 0.3s ease;
+}
+
+.hover-text-ToDo:hover{
+  font-size: 1.4rem; 
+  color: #2563eb
+}
+
+
 
 
