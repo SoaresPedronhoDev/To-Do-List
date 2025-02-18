@@ -760,19 +760,31 @@ section .loader span::before{
   font-size: 1.4rem; 
   color: #2563eb
 }
-
-.bg-pers{
-  background-color: #000000;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231b1b1b' fill-opacity='0.16'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+.floating-login {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: float 6s infinite ease-in-out;
 }
 
-.button-login{
-  width: 100%;
-  border-radius: 9999x;
-
-  background: linear-gradient(#212121, #212121) padding-box,
-  linear-gradient(145deg, transparent 35%,#e81cff, #40c9ff) border-box;
+.login-form {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-20px);
+  }
+}
 
+.floating-login:hover {
+  animation-play-state: paused;
+}
 
