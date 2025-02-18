@@ -3,16 +3,110 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Do </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
 
-    
-    <div>deu ceeerto</div>
+  <div class="h-screen w-full">
+    <div class="relative flex h-full w-full">
+      <div class="h-screen w-full bg-white">
+        <div class="mx-auto flex h-full flex-col justify-center text-white xl:w-1/3"> 
+          <div>
+            <p class="text-xl text-black">Login|</p> 
+            <p class="text-sm text-black">please login to continue|</p> 
+          </div>
+          <div class="my-4"> 
+            <button class="flex w-full justify-center rounded-3xl border-none bg-white p-1 text-black hover:bg-gray-200 sm:p-2"><img src="https://freesvg.org/img/1534129544.png" class="mr-2 w-6 object-fill" />Sign in with Google</button>
+          </div>
+          <div>
+            <fieldset class="border-t border-solid border-gray-600">
+              <legend class="mx-auto text-black px-2 text-center text-xs">Or login via our secure system</legend> 
+            </fieldset>
+          </div>
+          <div class="mt-8"> 
+              <div>
+                <label class="text-black mb-2 block  text-sm" for="email">Email</label> 
+                <input type="email" id="email" class="inline-block w-full rounded-full bg-white p-2 leading-none text-black placeholder-indigo-900 shadow placeholder:opacity-30" placeholder="email@user.com" />
+              </div>
+              <div class="mt-3"> 
+                <label class="text-black mb-2 block  text-sm" for="email">Password</label> 
+                <input type="password" id="email" placeholder="********" class="inline-block w-full rounded-full bg-white p-2 leading-none text-black placeholder-indigo-900 shadow" />
+              </div>
+              <div class="mt-3 flex w-full flex-col justify-between sm:flex-row">
+                
+                <div><input type="checkbox" id="remember" /><label for="remember" class=" text-black mx-2 text-xs">Remember me</label></div> 
+               
+                <div>
+                  <a href="#" class=" text-black text-xs hover:text-gray-200">Forgot password</a> 
+                </div>
+              </div>
+              <div class="my-8">
+                <button class="w-full rounded-full bg-orange-600 p-4 hover:bg-orange-800">Login</button> 
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 
+  <script>
+    // função para atualizar o horário
+    function updateTime() {
+      const timeDisplay = document.getElementById("time-display");
 
+      if (!timeDisplay) {
+        console.error("Time display element not found");
+        return;
+      }
+
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+
+      const period = hours >= 12 ? "PM" : "AM";
+      const formattedHours = hours % 12 || 12; 
+      const formattedMinutes = minutes.toString().padStart(2, "0");
+      const formattedSeconds = seconds.toString().padStart(2, "0");
+
+      const gmtOffset = -now.getTimezoneOffset() / 60; // Em horas
+      const gmtString = `GMT${gmtOffset >= 0 ? "+" : ""}${gmtOffset}`;
+
+      timeDisplay.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${period}. ${gmtString}`;
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+
+  
+    // função para mudar o display da section e do body
+function changeDisplay() {
+  setTimeout(() => {
+    const section = document.querySelector('section');
+    if (section) {
+      section.style.display = 'none';  // muda display da section para none
+    }
+
+    const body = document.querySelector('#hiden');
+    if (body) {
+      body.classList.remove('hidden'); // remove a classe 'hidden'
+      body.classList.add('flex'); // adiciona a classe 'flex'
+      body.classList.add('show'); // adiciona a classe 'show'
+    }
+  }, 3000);  
+}
+
+    // chama a função changeDisplay quando a página carrega
+    window.onload = changeDisplay;
+
+  </script>
 </body>
+
 </html>
