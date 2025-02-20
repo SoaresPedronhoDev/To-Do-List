@@ -105,14 +105,14 @@
             <fieldset class="border-t border-solid border-gray-300">
               <legend class="mx-auto text-gray-800 px-2 text-center text-xs">Or login via our secure system</legend>
             </fieldset>
-            <form>
+            <form id="registerForm">
               <div>
                 <label class="text-gray-800 mb-2 block text-sm" for="email">Email</label>
-                <input type="email" id="email" class="inline-block w-full rounded-full bg-gray-100 p-2 leading-none text-gray-800 placeholder-gray-500 shadow placeholder:opacity-30" placeholder="email@user.com" />
+                <input type="email" id="email" name="email" class="inline-block w-full rounded-full bg-gray-100 p-2 leading-none text-gray-800 placeholder-gray-500 shadow placeholder:opacity-30" placeholder="email@user.com" required />
               </div>
               <div class="mt-3">
                 <label class="text-gray-800 mb-2 block text-sm" for="password">Password</label>
-                <input type="password" id="password" placeholder="********" class="inline-block w-full rounded-full bg-gray-100 p-2 leading-none text-gray-800 placeholder-gray-500 shadow" />
+                <input type="password" id="password" name="password" placeholder="********" class="inline-block w-full rounded-full bg-gray-100 p-2 leading-none text-gray-800 placeholder-gray-500 shadow" required />
               </div>
               <div class="mt-3 flex w-full flex-col justify-between sm:flex-row">
                 <div>
@@ -126,7 +126,7 @@
                 </div>
               </div>
               <div class="my-8">
-                <button class="w-full rounded-full bg-orange-400 p-4 hover:bg-orange-500">Register</button>
+                <button type="submit" class="w-full rounded-full bg-orange-400 p-4 hover:bg-orange-500">Register</button>
               </div>
             </form>
           </div>
@@ -195,38 +195,70 @@ function changeDisplay() {
     // chama a função changeDisplay quando a página carrega
     window.onload = changeDisplay;
 
-   // Selecionar elementos
+   // selecionar elementos
 const howItWorksModal = document.getElementById('how-it-works-modal');
 const termsOfUseModal = document.getElementById('terms-of-use-modal');
 const howItWorksLink = document.getElementById('how-it-works');
 const termsOfUseLink = document.getElementById('terms-of-use');
 const closeButtons = document.querySelectorAll('.close');
 
-// Abrir o modal "Como Funciona?" quando o link for clicado
+// abrir o modal "Como Funciona" quando o link for clicado
 howItWorksLink.addEventListener('click', (e) => {
   e.preventDefault(); // Evitar o comportamento padrão do link
   howItWorksModal.classList.remove('hidden'); // Mostrar o modal
 });
 
-// Abrir o modal "Termos de Uso" quando o link for clicado
+// abrir o modal "Termos de Uso" quando o link for clicado
 termsOfUseLink.addEventListener('click', (e) => {
   e.preventDefault(); // Evitar o comportamento padrão do link
   termsOfUseModal.classList.remove('hidden'); // Mostrar o modal
 });
 
-// Fechar os modais quando o botão de fechar for clicado
+// fechar os modais quando o botao de fechar for clicado
 closeButtons.forEach(button => {
   button.addEventListener('click', () => {
-    button.closest('.modal').classList.add('hidden'); // Esconder o modal
+    button.closest('.modal').classList.add('hidden'); // esconder o modal
   });
 });
 
-// Fechar os modais quando clicar fora da área do modal
+// fechar os modais quando clicar fora da área do modal
 window.addEventListener('click', (e) => {
   if (e.target.classList.contains('modal')) {
-    e.target.classList.add('hidden'); // Esconder o modal
+    e.target.classList.add('hidden'); // esconder o modal
   }
 });
+
+//script para integracao do formulario
+
+document.getElementById('registerForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); // impede o envio padrao do formulario
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch('http://localhost:5001/Todo/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('User registered successfully!');
+        // redirecionar para a pagina de login ou outra pagina
+        window.location.href = '/login';
+      } else {
+        alert(data.message || 'Error registering user');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while registering');
+    }
+  });
 
   </script>
 </body>

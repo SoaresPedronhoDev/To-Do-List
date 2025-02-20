@@ -1,34 +1,45 @@
+// src/index.ts
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import todoGet from './routes/todoRoute';
+import userRoutes from './routes/userRoutes'; 
 import mongoose from 'mongoose';
-import { error } from 'console';
 
 dotenv.config();
 
 const app = express();
-const PORT = 5001; // porta do servidor (não 27017, que é a porta do MongoDB)
+const PORT = 5001; // porta do servidor
 
+// middleware para parsing de JSON
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public'))); // serve caminhos estaticos da pasta public
-app.use('/Todo', todoGet); // usa a rota localhost:5001/Todo como base
 
-// Mongoose connection
+// servir arquivos estáticos da pasta public
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Rotas
+app.use('/Todo', todoGet); // rota base para as tarefas
+app.use('/Todo', userRoutes); // rota base para usuários
+
+// conexão com o MongoDB
 async function main() {
   try {
-    await mongoose.connect('mongodb://localhost:27017/to-do-list', {
-    //   useNewUrlParser: true,
-    //   useUnifiedTopology: true,
-    });
-    console.log('The connection is OK');
+    await mongoose.connect('mongodb://localhost:27017/to-do-list');
+    console.log('Conexão com o MongoDB estabelecida com sucesso.');
   } catch (err) {
-    console.log('Error connecting to MongoDB:', err);
+    console.error('Erro ao conectar ao MongoDB:', err);
   }
 }
 
-main(); // Chama a função de conexão
+main(); // chama a funcao de conexao
 
+// middleware de tratamento de erros
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack); // log do erro no console
+  res.status(500).json({ message: 'Algo deu errado!', error: err.message });
+});
+
+// inicializa o servidor
 app.listen(PORT, () => {
-  console.log(`Server is running on PORT ${PORT}`); // inicializa o servidor na porta 5001
+  console.log(`Servidor rodando na porta ${PORT}`);
 });

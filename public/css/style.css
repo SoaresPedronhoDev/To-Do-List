@@ -760,31 +760,3 @@ section .loader span::before{
   font-size: 1.4rem; 
   color: #2563eb
 }
-.floating-login {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: float 6s infinite ease-in-out;
-}
-
-.login-form {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translate(-50%, -50%) translateY(0);
-  }
-  50% {
-    transform: translate(-50%, -50%) translateY(-20px);
-  }
-}
-
-.floating-login:hover {
-  animation-play-state: paused;
-}
-
