@@ -2,6 +2,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
+import passport from './config/passport';
+import authRoutes from './routes/authRoute';
 import todoGet from './routes/todoRoute';
 import userRoutes from './routes/userRoutes'; 
 import mongoose from 'mongoose';
@@ -14,10 +16,13 @@ const PORT = 5001; // porta do servidor
 // middleware para parsing de JSON
 app.use(express.json());
 
+app.use(passport.initialize())
+
 // servir arquivos estáticos da pasta public
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Rotas
+app.use('/auth', authRoutes)
 app.use('/Todo', todoGet); // rota base para as tarefas
 app.use('/Todo', userRoutes); // rota base para usuários
 
