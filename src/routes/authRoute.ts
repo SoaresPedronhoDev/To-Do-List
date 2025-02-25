@@ -1,4 +1,4 @@
-// src/routes/authRoute.ts
+
 import express from 'express';
 import passport from 'passport';
 import User from '../models/User';
@@ -6,7 +6,7 @@ import User from '../models/User';
 const router = express.Router();
 
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 
 router.get(
