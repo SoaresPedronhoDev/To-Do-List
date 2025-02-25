@@ -1,28 +1,36 @@
+// src/routes/authRoute.ts
+import express from 'express';
+import passport from 'passport';
+import User from '../models/User';
+
+const router = express.Router();
 
 
-import express, { Router } from 'express'
-import passport from 'passport'
-
-const router = express.Router()
-
-//rota pra autenticacao com o google
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-//rota de redirecionamento após login com o google
+
 router.get(
-    '/auth/google/callback',
-    passport.authenticate('google', {failureRedirect: '/login'}),
-    (req,res) =>{
-        res.redirect('/')
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/Todo/register' }),
+  async (req, res) => {
+    try {
+      const profile = req.user as any; 
+      let user = await User.findOne({ googleId: profile.id });
+
+      if (!user) {
+        user = new User({
+          googleId: profile.id,
+          email: profile.emails?.[0].value, 
+          displayName: profile.displayName,
+        });
+        await user.save();
+      }
+      res.redirect('/');
+    } catch (error) {
+      console.error('Erro durante o callback do Google:', error);
+      res.redirect('/Todo/register');
     }
+  }
 );
 
-router.get('/auth/current-user',(req,res) =>{
-    if(req.user){
-        res.json({ user : req.user})
-    } else {
-        res.status(401).json({ message : 'Not authenticated'})
-    }
-});
-
-export default Router
+export default router;
