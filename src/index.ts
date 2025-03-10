@@ -1,5 +1,6 @@
 // src/index.ts
 import express, { Request, Response, NextFunction } from 'express';
+import session from 'express-session';
 import path from 'path';
 import dotenv from 'dotenv';
 import passport from './config/passport';
@@ -16,7 +17,19 @@ const PORT = 5001; // porta do servidor
 // middleware para parsing de JSON
 app.use(express.json());
 
+//configuracoes do express-session
+
+app.use(
+  session({
+    secret: 'chave_secreta',
+    resave : false,
+    saveUninitialized : false,
+    cookie : { secure : false },
+  })
+);
+
 app.use(passport.initialize())
+app.use(passport.session())
 
 // servir arquivos estáticos da pasta public
 app.use(express.static(path.join(__dirname, '../public')));

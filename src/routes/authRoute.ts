@@ -10,12 +10,14 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 
 
 router.get(
-  '/auth/google/callback',
+  '/google/callback',
   passport.authenticate('google', { failureRedirect: '/Todo/register' }),
   async (req, res) => {
     try {
       const profile = req.user as any; 
+      console.log('Perfil do Google:', profile); 
       let user = await User.findOne({ googleId: profile.id });
+      console.log('Usuário encontrado:', user); 
 
       if (!user) {
         user = new User({
@@ -23,8 +25,11 @@ router.get(
           email: profile.emails?.[0].value, 
           displayName: profile.displayName,
         });
+
         await user.save();
+        console.log('Usuário criado com sucesso:', user); 
       }
+
       res.redirect('/');
     } catch (error) {
       console.error('Erro durante o callback do Google:', error);

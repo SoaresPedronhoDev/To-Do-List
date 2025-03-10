@@ -12,19 +12,18 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await User.findOne({ googleId: profile.id }); 
+        let user = await User.findOne({ googleId: profile.id });
 
         if (!user) {
           user = new User({
             googleId: profile.id,
-            email: profile.emails?.[0].value, // O google retorna o email no perfil
+            email: profile.emails?.[0].value, 
             displayName: profile.displayName,
           });
 
           await user.save();
         }
 
-        // retorna o usuario para o passport
         done(null, user);
       } catch (error) {
         done(error);
