@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import session from 'express-session';
 import path from 'path';
 import dotenv from 'dotenv';
+dotenv.config()
 import passport from './config/passport';
 import authRoutes from './routes/authRoute';
 import todoGet from './routes/todoRoute';
@@ -21,7 +22,7 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: 'chave_secreta',
+    secret: process.env.SESSION_SECRET!,
     resave : false,
     saveUninitialized : false,
     cookie : { secure : false },

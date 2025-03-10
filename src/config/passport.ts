@@ -6,18 +6,25 @@ import User from "../models/User";
 passport.use(
   new GoogleStrategy(
     {
-      clientID: "509669443220-j1e4k1i3hmc7ac40re4p3pluhrd427n3.apps.googleusercontent.com",
-      clientSecret: "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",
+      clientID: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       callbackURL: 'http://localhost:5001/auth/google/callback',
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        console.log("Google Profile:", profile);
+
+        const email = profile.emails?.[0]?.value;
+        if (!email) {
+          return done(new Error("Email not provided by Google."));
+        }
+
         let user = await User.findOne({ googleId: profile.id });
 
         if (!user) {
           user = new User({
             googleId: profile.id,
-            email: profile.emails?.[0].value, 
+            email: email,
             displayName: profile.displayName,
           });
 
@@ -31,7 +38,6 @@ passport.use(
     }
   )
 );
-
 
 passport.serializeUser((user: any, done) => {
   done(null, user.id);
