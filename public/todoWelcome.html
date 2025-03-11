@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To Do </title>
+  <title>To Do Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="./css/style.css">
 </head>
-
 <body>
-
   <div class="h-screen w-full">
-
-      <section class="h-screen w-full">
-        <div class="loader">
-          <span style="--i:1;"></span>
+    <section class="h-screen w-full">
+      <div class="loader">
+        <span style="--i:1;"></span>
           <span style="--i:2;"></span>
           <span style="--i:3;"></span>
           <span style="--i:4;"></span>
@@ -36,62 +31,56 @@
           <span style="--i:18;"></span>
           <span style="--i:19;"></span>
           <span style="--i:20;"></span>
+      </div>
+    </section>
+
+    <div id="hiden" class="bg-black text-white min-h-screen hidden flex-col justify-between">  
+      <header class="flex justify-between items-center px-8 py-4">
+        <h1 class="text-lg font-semibol hover-text-ToDo">To Do Login</h1>
+        <nav class="space-x-8 text-sm uppercase ">
+          <a href="#" class="hover:underline hover-text-ToDo">About</a>
+          <a href="#" class="hover:underline hover-text-ToDo">Linkedin</a>
+          <a href="#" class="hover:underline hover-text-ToDo">Contact</a>
+        </nav>
+      </header>
+
+      <main class="flex-grow flex flex-col lg:flex-row items-center justify-evenly px-8">
+        <div class="text-center lg:text-left max-w-md mb-8 lg:mb-0">
+          <p class="text-5xl font-light hover-text">Entre com o seu</p>
+          <p class="text-5xl font-light hover-text">Usuario para podermos</p>
+          <p class="text-5xl font-light hover-text">Te dar suas tarefas</p>
         </div>
-      </section>
-      
 
-      <div id="hiden" class="bg-black text-white min-h-screen hidden flex-col justify-between">  
-        <header class="flex justify-between items-center px-8 py-4">
-          <h1 class="text-lg font-semibol hover-text-ToDo">To Do Login</h1>
-          <nav class="space-x-8 text-sm uppercase ">
-            <a href="#" class="hover:underline hover-text-ToDo">About</a>
-            <a href="#" class="hover:underline hover-text-ToDo">Linkedin</a>
-            <a href="#" class="hover:underline hover-text-ToDo">Contact</a>
-          </nav>
-        </header>
-
-        <main class="flex-grow flex flex-col lg:flex-row items-center  justify-evenly px-8">
-          <div class="text-center lg:text-left max-w-md mb-8 lg:mb-0">
-            <p class="text-5xl font-light hover-text">Entre com o seu</p>
-            <p class="text-5xl font-light hover-text">Usuario para podermos</p>
-            <p class="text-5xl font-light hover-text">Te dar suas tarefas</p>
+        <div class="relative">
+          <div class="form-container">
+            <form id="loginForm" class="form">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+              </div>
+              <button class="form-submit-btn" type="submit">Submit</button>
+              <a href="/Todo/register" class="form-submit-btn" type="button">Não tenho uma conta</a>
+            </form>
           </div>
+        </div>
+      </main>
 
-          <div class="relative">
-            <div class="form-container">
-                  <form class="form">
-                    <div class="form-group">
-                      <label for="email">User Name</label>
-                      <input type="text" id="email" name="email" required="">
-                    </div>
-                    <div class="form-group">
-                      <label for="textarea">Password</label>
-                      <textarea name="textarea" id="textarea" rows="10" cols="50" required=""></textarea>
-                    </div>
-                    <button class="form-submit-btn" type="submit">Submit</button>
-                    <a href="/Todo/register" class="form-submit-btn" type="submit">Não tenho uma conta</a>
-                  </form>
-             </div>
-          </div>
-        </main>
-
-        <footer class="px-8 py-4 flex justify-between text-xs">
-          <p>Follower of Jesus Christ†</p>
-          <p id="time-display" class="text-gray-500">5:44:38 PM. GMT-5</p>
-        </footer>
-      </div>  
-
+      <footer class="px-8 py-4 flex justify-between text-xs">
+        <p>Follower of Jesus Christ†</p>
+        <p id="time-display" class="text-gray-500">5:44:38 PM. GMT-5</p>
+      </footer>
+    </div>  
   </div>
 
   <script>
-    // função para atualizar o horário
+    // Função para atualizar o horário
     function updateTime() {
       const timeDisplay = document.getElementById("time-display");
-
-      if (!timeDisplay) {
-        console.error("Time display element not found");
-        return;
-      }
+      if (!timeDisplay) return;
 
       const now = new Date();
       const hours = now.getHours();
@@ -103,7 +92,7 @@
       const formattedMinutes = minutes.toString().padStart(2, "0");
       const formattedSeconds = seconds.toString().padStart(2, "0");
 
-      const gmtOffset = -now.getTimezoneOffset() / 60; // Em horas
+      const gmtOffset = -now.getTimezoneOffset() / 60;
       const gmtString = `GMT${gmtOffset >= 0 ? "+" : ""}${gmtOffset}`;
 
       timeDisplay.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${period}. ${gmtString}`;
@@ -112,28 +101,54 @@
     setInterval(updateTime, 1000);
     updateTime();
 
-  
-    // função para mudar o display da section e do body
-function changeDisplay() {
-  setTimeout(() => {
-    const section = document.querySelector('section');
-    if (section) {
-      section.style.display = 'none';  // muda display da section para none
+    function changeDisplay() {
+      setTimeout(() => {
+        const section = document.querySelector('section');
+        if (section) section.style.display = 'none';
+
+        const body = document.querySelector('#hiden');
+        if (body) {
+          body.classList.remove('hidden');
+          body.classList.add('flex', 'show');
+        }
+      }, 3000);  
     }
 
-    const body = document.querySelector('#hiden');
-    if (body) {
-      body.classList.remove('hidden'); // remove a classe 'hidden'
-      body.classList.add('flex'); // adiciona a classe 'flex'
-      body.classList.add('show'); // adiciona a classe 'show'
-    }
-  }, 3000);  
-}
-
-    // chama a função changeDisplay quando a página carrega
     window.onload = changeDisplay;
 
+
+    //funcao para lidar com login
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('/src/routes/userRoutes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Login bem-sucedido
+          localStorage.setItem('token', data.token); // Armazena o token no localStorage
+          alert(data.message); // Exibe mensagem de sucesso
+          window.location.href = '/todoWelcome.html'; // Redireciona para a página de tarefas
+        } else {
+          // Login falhou
+          alert(data.message || 'Login failed');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred during login');
+      }
+    });
   </script>
 </body>
-
 </html>
