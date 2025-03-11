@@ -119,36 +119,33 @@
 
     //funcao para lidar com login
     document.getElementById('loginForm').addEventListener('submit', async function(event) {
-      event.preventDefault();
+  event.preventDefault();
 
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
-      try {
-        const response = await fetch('/src/routes/userRoutes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, password }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          // Login bem-sucedido
-          localStorage.setItem('token', data.token); // Armazena o token no localStorage
-          alert(data.message); // Exibe mensagem de sucesso
-          window.location.href = '/todoWelcome.html'; // Redireciona para a página de tarefas
-        } else {
-          // Login falhou
-          alert(data.message || 'Login failed');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred during login');
-      }
+  try {
+    const response = await fetch('/src/routes/userRoutes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
     });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(data.message); 
+      window.location.href = '/todoWelcome.html'; 
+    } else {
+      alert(data.message || 'Login failed');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('An error occurred during login');
+  }
+});
   </script>
 </body>
 </html>

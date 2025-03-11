@@ -2,6 +2,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt'; // para criptografar senhas
+import jwt from 'jsonwebtoken'
 
 const router = Router();
 
@@ -31,5 +32,9 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
     next(error); // passa o erro para o middleware de tratamento de erros
   }
 });
+
+router.post('/',async (req :  Request, res: Response, next : NextFunction) : Promise<any> =>{
+
+})
 
 export default router;
