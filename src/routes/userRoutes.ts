@@ -2,7 +2,6 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt'; // para criptografar senhas
-import jwt from 'jsonwebtoken'
 
 const router = Router();
 
@@ -33,8 +32,38 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
   }
 });
 
-router.post('/',async (req :  Request, res: Response, next : NextFunction) : Promise<any> =>{
+router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  try {
+    const { email, password } = req.body;
 
-})
+    // verifica se o usuario existe
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    // verifica senha
+    if (!user.password) {
+      return res.status(400).json({ message: 'Password is missing' });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid password' });
+    }
+
+    res.status(200).json({ 
+      message: 'Login successful', 
+      user: { 
+        email: user.email, 
+        displayName: user.displayName 
+      } 
+    });
+  } catch (error) {
+    next(error); //passa o erro para o tratamento de erros 
+  }
+});
+
+
+
 
 export default router;

@@ -120,12 +120,13 @@
     //funcao para lidar com login
     document.getElementById('loginForm').addEventListener('submit', async function(event) {
   event.preventDefault();
+  console.log('Form submitted');
 
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
   try {
-    const response = await fetch('/src/routes/userRoutes', {
+    const response = await fetch('http://localhost:5001/Todo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -137,7 +138,7 @@
 
     if (response.ok) {
       alert(data.message); 
-      window.location.href = '/todoWelcome.html'; 
+      window.location.href = '/Todo/register'; 
     } else {
       alert(data.message || 'Login failed');
     }
