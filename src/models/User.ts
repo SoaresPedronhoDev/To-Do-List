@@ -1,24 +1,29 @@
+// src/models/User.ts
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-import mongoose, { Schema, Document } from 'mongoose';
-
-interface IUser extends Document {
+interface IUser extends mongoose.Document {
   email: string;
-  password?: string; 
-  googleId?: string; 
-  displayName?: string; 
-  createdAt: Date;
-  updatedAt: Date;
+  password: string;
+  displayName?: string;
+  generateAuthToken(): string; 
 }
 
-const userSchema: Schema = new Schema({
+const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  password: { type: String },
-  googleId: { type: String, unique: true, sparse: true }, 
-  displayName: { type: String },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
+  password: { type: String, required: true },
+  displayName: { type: String }
 });
 
-const User = mongoose.model<IUser>('User', userSchema);
+// Método para gerar token JWT
+userSchema.methods.generateAuthToken = function() {
+  return jwt.sign(
+    { userId: this._id, email: this.email },
+    process.env.JWT_SECRET!, 
+    { expiresIn: '1d' }
+  );
+};
 
-export default User;
+
+export default mongoose.model<IUser>('User', userSchema);
