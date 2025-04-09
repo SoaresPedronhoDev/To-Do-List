@@ -1,69 +1,75 @@
-
 import { Request, Response, NextFunction, Router } from 'express';
 import User from '../models/User';
-import bcrypt from 'bcrypt'; // para criptografar senhas
+import bcrypt from 'bcrypt';
 
 const router = Router();
 
-// rota de registro
-router.post('/register', async (req: Request, res: Response, next: NextFunction) : Promise<any> => {
+// Rota de registro
+router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
 
-    // verifica se o usuario ja existe
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email e senha são obrigatórios' });
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: 'Usuário já existe' });
     }
 
-    // criptografa a senha
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    //cria um novo usuario
-    const newUser = new User({
-      email,
-      password: hashedPassword,
-    });
-
+    const newUser = new User({ email, password });
     await newUser.save();
-    res.status(201).json({ message: 'User registered successfully' });
+    
+    res.status(201).json({ message: 'Usuário registrado com sucesso' });
+    
   } catch (error) {
-    next(error); // passa o erro para o middleware de tratamento de erros
+    next(error);
   }
 });
 
-router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+// Rota de login
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
 
-    // verifica se o usuario existe
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email e senha são obrigatórios' });
+    }
+
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'User not found' });
+      return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
-    // verifica senha
-    if (!user.password) {
-      return res.status(400).json({ message: 'Password is missing' });
-    }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(400).json({ message: 'Invalid password' });
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
-    res.status(200).json({ 
-      message: 'Login successful', 
-      user: { 
-        email: user.email, 
-        displayName: user.displayName 
-      } 
+    const token = user.generateAuthToken();
+
+    res.cookie('authToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 86400000,
+      sameSite: 'strict',
+      path: '/'
     });
+
+    res.status(200).json({
+      message: 'Login bem-sucedido',
+      user: {
+        id: user._id,
+        email: user.email,
+        displayName: user.displayName
+      }
+    });
+
   } catch (error) {
-    next(error); //passa o erro para o tratamento de erros 
+    console.error('Erro no login:', error);
+    next(error);
   }
 });
-
-
-
 
 export default router;

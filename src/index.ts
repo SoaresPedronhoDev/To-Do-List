@@ -3,18 +3,32 @@ import express, { Request, Response, NextFunction } from 'express';
 import session from 'express-session';
 import path from 'path';
 import dotenv from 'dotenv';
-dotenv.config()
+import cookieParser from 'cookie-parser';
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') }); // carregando o dotenv antes de qualquer coisa
+if (!process.env.JWT_SECRET) {
+  console.log('Variáveis de ambiente:', process.env);
+  console.log('JWT_SECRET:', process.env.JWT_SECRET);
+  process.exit(1);
+} else {
+  console.log('✅ JWT_SECRET carregado corretamente');
+}
+
 import passport from './config/passport';
 import authRoutes from './routes/authRoute';
 import todoGet from './routes/todoRoute';
 import userRoutes from './routes/userRoutes'; 
 import mongoose from 'mongoose';
 
-dotenv.config();
+console.log(process.env.JWT_SECRET);
+
 
 const app = express();
 const PORT = 5001; // porta do servidor
 
+app.use(cookieParser());
+
+// middleware para parsing de URL-encoded
 // middleware para parsing de JSON
 app.use(express.json());
 
