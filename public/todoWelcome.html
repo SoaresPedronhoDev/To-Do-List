@@ -119,36 +119,34 @@
 
     //funcao para lidar com login
     document.getElementById('loginForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-        console.log('Form submitted');
+  event.preventDefault();
+  console.log('Form submitted');
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
-        try {
-            const response = await fetch('http://localhost:5001/Todo/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                // Salvar o token no localStorage
-                localStorage.setItem('token', data.token);
-                // Redirecionar para a página do dashboard
-                window.location.href = '/Todo/dashboard';
-            } else {
-                alert(data.message || 'Login falhou');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Ocorreu um erro durante o login');
-        }
+  try {
+    const response = await fetch('http://localhost:5001/Todo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
     });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(data.message); 
+      window.location.href = '/Todo/register'; 
+    } else {
+      alert(data.message || 'Login failed');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('An error occurred during login');
+  }
+});
   </script>
 </body>
 </html>
