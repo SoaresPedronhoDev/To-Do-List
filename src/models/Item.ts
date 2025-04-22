@@ -1,22 +1,15 @@
+import mongoose from 'mongoose';
 
-
-import mongoose, { Schema, Document } from "mongoose";\
-import IUser from "./User";
-
-export interface IItem extends Document {
-
+interface IItem extends mongoose.Document {
   description: string;
-  isDone: boolean
-  user: Schema.Types.ObjectId;
-
+  completed: boolean;
+  user: mongoose.Types.ObjectId; // Dono do item
 }
 
-const itemSchema = new Schema({
+const itemSchema = new mongoose.Schema({
+  description: { type: String, required: true },
+  completed: { type: Boolean, default: false },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+}, { timestamps: true });
 
-    description: { type: String, required: true },
-    isDone: { type: Boolean, default: false },
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true }
-    
-  }, { timestamps: true });
-
-  export default mongoose.model<IItem>('Item', itemSchema);
+export default mongoose.model<IItem>('Item', itemSchema);

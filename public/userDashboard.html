@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Tarefas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Minhas Tarefas</h1>
+            <div class="flex items-center space-x-4">
+                <span id="userEmail" class="text-gray-600"></span>
+                <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Sair</button>
+            </div>
+        </header>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <form id="addItemForm" class="flex gap-4">
+                <input type="text" id="itemDescription" placeholder="Adicione uma nova tarefa" 
+                       class="flex-1 p-2 border rounded focus:outline-none focus:border-blue-500">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Adicionar
+                </button>
+            </form>
+        </div>
+
+        <div id="itemsList" class="space-y-4">
+            <!-- Os itens serão inseridos aqui via JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Função para carregar os itens do usuário
+        async function loadUserItems() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:5001/Todo/items', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) throw new Error('Erro ao carregar itens');
+                
+                const items = await response.json();
+                displayItems(items);
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao carregar suas tarefas');
+            }
+        }
+
+        // Função para exibir os itens na tela
+        function displayItems(items) {
+            const itemsList = document.getElementById('itemsList');
+            itemsList.innerHTML = items.map(item => `
+                <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <input type="checkbox" ${item.completed ? 'checked' : ''} 
+                               onchange="toggleItem('${item._id}')" class="h-5 w-5">
+                        <span class="${item.completed ? 'line-through text-gray-500' : ''}">${item.description}</span>
+                    </div>
+                    <button onclick="deleteItem('${item._id}')" 
+                            class="text-red-500 hover:text-red-700">
+                        Excluir
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Função para adicionar novo item
+        document.getElementById('addItemForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const description = document.getElementById('itemDescription').value;
+            
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:5001/Todo/items', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ description })
+                });
+                
+                if (!response.ok) throw new Error('Erro ao adicionar item');
+                
+                document.getElementById('itemDescription').value = '';
+                loadUserItems();
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao adicionar tarefa');
+            }
+        });
+
+        // Função para marcar item como concluído
+        async function toggleItem(itemId) {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:5001/Todo/items/${itemId}/toggle`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) throw new Error('Erro ao atualizar item');
+                
+                loadUserItems();
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar tarefa');
+            }
+        }
+
+        // Função para excluir item
+        async function deleteItem(itemId) {
+            if (!confirm('Tem certeza que deseja excluir esta tarefa?')) return;
+            
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:5001/Todo/items/${itemId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) throw new Error('Erro ao excluir item');
+                
+                loadUserItems();
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao excluir tarefa');
+            }
+        }
+
+        // Função para fazer logout
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/Todo';
+        }
+
+        // Carregar dados do usuário e itens ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/Todo';
+                return;
+            }
+
+            // Decodificar o token para obter o email do usuário
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            document.getElementById('userEmail').textContent = payload.email;
+
+            loadUserItems();
+        });
+    </script>
+</body>
+</html> 

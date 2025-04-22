@@ -256,7 +256,7 @@ document.getElementById('registerForm').addEventListener('submit', async (event)
       if (response.ok) {
         alert('User registered successfully!');
         // redirecionar para a pagina de login ou outra pagina
-        window.location.href = '/login';
+        window.location.href = '/Todo';
       } else {
         alert(data.message || 'Error registering user');
       }
