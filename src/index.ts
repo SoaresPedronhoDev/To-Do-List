@@ -9,8 +9,10 @@ import authRoutes from './routes/authRoute';
 import todoGet from './routes/todoRoute';
 import userRoutes from './routes/userRoutes';
 import mongoose from 'mongoose';
-import { MongoStore } from 'connect-mongo';
+import MongoStore from 'connect-mongo'; 
 import cookieParser from 'cookie-parser';
+
+dotenv.config();
 
 const app = express();
 const PORT = 5001; // porta do servidor

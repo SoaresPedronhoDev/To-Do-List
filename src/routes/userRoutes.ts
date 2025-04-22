@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt'; // para criptografar senhas
+import path from 'path';
 
 const router = Router();
 
@@ -31,36 +32,41 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
   }
 });
 
-router.post('/', async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+router.post('/login', async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    // verifica se o usuario existe
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: 'Credenciais inválidas' });
+      return res.status(400).json({ message: 'Usuário não encontrado' });
     }
 
-    // verifica senha
     if (!user.password) {
-      return res.status(400).json({ message: 'Password is missing' });
+      return res.status(400).json({ message: 'Senha não encontrada para o usuário' });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(400).json({ message: 'Invalid password' });
+      return res.status(400).json({ message: 'Senha inválida' });
     }
 
+    const token = user.generateAuthToken();
+
     res.status(200).json({ 
-      message: 'Login successful', 
+      message: 'Login bem-sucedido',
+      token,
       user: { 
         email: user.email, 
         displayName: user.displayName 
-      } 
+      }
     });
-
   } catch (error) {
-    next(error); //passa o erro para o tratamento de erros 
+    res.status(500).json({ message: 'Erro durante o login', error });
   }
+});
+
+// Rota para servir a página do dashboard
+router.get('/dashboard', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../../public/userDashboard.html'));
 });
 
 export default router;

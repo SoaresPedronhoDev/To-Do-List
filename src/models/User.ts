@@ -1,5 +1,8 @@
-
 import mongoose, { Schema, Document } from 'mongoose';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 interface IUser extends Document {
   email: string;
@@ -8,6 +11,7 @@ interface IUser extends Document {
   displayName?: string; 
   createdAt: Date;
   updatedAt: Date;
+  generateAuthToken(): string;
 }
 
 const userSchema: Schema = new Schema({
@@ -18,6 +22,15 @@ const userSchema: Schema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
+
+// Método para gerar token JWT
+userSchema.methods.generateAuthToken = function(): string {
+  return jwt.sign(
+    { userId: this._id },
+    process.env.JWT_SECRET || 'default-secret',
+    { expiresIn: '1h' }
+  );
+};
 
 const User = mongoose.model<IUser>('User', userSchema);
 
