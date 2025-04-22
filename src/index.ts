@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import session from 'express-session';
 import path from 'path';
 import dotenv from 'dotenv';
+dotenv.config()
 import passport from './config/passport';
 import authRoutes from './routes/authRoute';
 import todoGet from './routes/todoRoute';
@@ -12,16 +13,12 @@ import MongoStore from 'connect-mongo';
 
 dotenv.config();
 
-// const requiredEnvVars = ['MONGO_URI', 'SESSION_SECRET', 'JWT_SECRET'];
-// for (const envVar of requiredEnvVars) {
-//   if (!process.env[envVar]) {
-//     throw new Error(`Variável de ambiente ${envVar} não definida`);
-//   }
-// }
-
 const app = express();
 const PORT = 5001; // porta do servidor
 
+app.use(cookieParser());
+
+// middleware para parsing de URL-encoded
 // middleware para parsing de JSON
 app.use(express.json());
 

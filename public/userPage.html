@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Test</title>
+</head>
+<body>
+  <form id="loginForm">
+    <input type="email" id="email" required>
+    <input type="password" id="password" required>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const response = await fetch('http://localhost:5001/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: e.target.email.value,
+          password: e.target.password.value
+        }),
+        credentials: 'include' // importante para cookies
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        console.log('Login success:', data);
+        // redireciona ou atualiza a UI
+        window.location.href = '/dashboard.html';
+      } else {
+        alert(data.message || 'Login failed');
+      }
+    });
+  </script>
+</body>
+</html>
