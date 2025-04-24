@@ -8,6 +8,7 @@ import passport from './config/passport';
 import authRoutes from './routes/authRoute';
 import todoGet from './routes/todoRoute';
 import userRoutes from './routes/userRoutes';
+import itemRoutes from './routes/itemRoute';
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo'; 
 import cookieParser from 'cookie-parser';
@@ -51,6 +52,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/auth', authRoutes)
 app.use('/Todo', todoGet); // rota base para as tarefas
 app.use('/Todo', userRoutes); // rota base para usuários
+app.use('/Todo/items', itemRoutes); // rota para os itens/tarefas
 
 // conexão com o MongoDB
 async function main() {
