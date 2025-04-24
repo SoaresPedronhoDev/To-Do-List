@@ -77,10 +77,22 @@
         // Função para adicionar novo item
         document.getElementById('addItemForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const description = document.getElementById('itemDescription').value;
+            const descriptionInput = document.getElementById('itemDescription');
+            const description = descriptionInput.value.trim();
+            
+            if (!description) {
+                alert('Por favor, insira uma descrição para a tarefa');
+                return;
+            }
             
             try {
                 const token = localStorage.getItem('token');
+                if (!token) {
+                    alert('Sessão expirada. Por favor, faça login novamente.');
+                    window.location.href = '/Todo';
+                    return;
+                }
+
                 const response = await fetch('http://localhost:5001/Todo/items', {
                     method: 'POST',
                     headers: {
@@ -90,13 +102,17 @@
                     body: JSON.stringify({ description })
                 });
                 
-                if (!response.ok) throw new Error('Erro ao adicionar item');
+                const data = await response.json();
                 
-                document.getElementById('itemDescription').value = '';
+                if (!response.ok) {
+                    throw new Error(data.message || 'Erro ao adicionar item');
+                }
+                
+                descriptionInput.value = '';
                 loadUserItems();
             } catch (error) {
                 console.error('Erro:', error);
-                alert('Erro ao adicionar tarefa');
+                alert(error.message || 'Erro ao adicionar tarefa');
             }
         });
 
