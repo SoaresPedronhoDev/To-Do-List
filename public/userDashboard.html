@@ -10,28 +10,28 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-black text-white min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <header class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">Minhas Tarefas</h1>
+            <h1 class="text-3xl font-bold hover-text-ToDo">Minhas Tarefas</h1>
             <div class="flex items-center space-x-4">
-                <span id="userEmail" class="text-gray-600"></span>
-                <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Sair</button>
+                <span id="userEmail" class="text-gray-400"></span>
+                <button onclick="logout()" class="form-submit-btn">Sair</button>
             </div>
         </header>
 
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="bg-gray-900 rounded-lg shadow-md p-6 mb-6">
             <form id="addItemForm" class="flex gap-4">
                 <input type="text" id="itemDescription" placeholder="Adicione uma nova tarefa" 
-                       class="flex-1 p-2 border rounded focus:outline-none focus:border-blue-500">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                       class="flex-1 p-2 bg-gray-800 text-white border border-gray-700 rounded focus:outline-none focus:border-blue-500">
+                <button type="submit" class="form-submit-btn">
                     Adicionar
                 </button>
             </form>
         </div>
 
         <div id="itemsList" class="space-y-4">
-            <!-- Os itens serão inseridos aqui via JavaScript -->
+            
         </div>
     </div>
 
@@ -60,11 +60,11 @@
         function displayItems(items) {
             const itemsList = document.getElementById('itemsList');
             itemsList.innerHTML = items.map(item => `
-                <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-between">
+                <div class="bg-gray-900 rounded-lg shadow-md p-4 flex items-center justify-between">
                     <div class="flex items-center space-x-4">
                         <input type="checkbox" ${item.completed ? 'checked' : ''} 
-                               onchange="toggleItem('${item._id}')" class="h-5 w-5">
-                        <span class="${item.completed ? 'line-through text-gray-500' : ''}">${item.description}</span>
+                               onchange="toggleItem('${item._id}')" class="h-5 w-5 accent-blue-500">
+                        <span class="${item.completed ? 'line-through text-gray-500' : 'text-white'}">${item.description}</span>
                     </div>
                     <button onclick="deleteItem('${item._id}')" 
                             class="text-red-500 hover:text-red-700">
