@@ -79,7 +79,8 @@ Acesse: `http://localhost:5001`
 ## 🙋‍♂️ Autor
 
 Pedro Henrique Domingues  
-[LinkedIn]([https://www.linkedin.com/in/seulinkedin](https://www.linkedin.com/in/pedro-henrique-domingues-109178326/))   
+[LinkedIn](https://www.linkedin.com/in/pedro-henrique-domingues-109178326/)
+  
 
 ---
 
